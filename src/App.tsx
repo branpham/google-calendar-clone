@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Layout } from './components/Layout'
-import { useCalendarStore } from 'src/store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 import { EventEditor } from './components/EventEditor/EventEditor'
 
 function App() {

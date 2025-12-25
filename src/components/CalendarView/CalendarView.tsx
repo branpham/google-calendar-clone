@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 import { MonthView } from './MonthView'
 import { WeekView } from './WeekView'
 import { DayView } from './DayView'

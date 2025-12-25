@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 
 export const WeekView: React.FC = () => {
   return (

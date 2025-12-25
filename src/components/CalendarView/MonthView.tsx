@@ -1,7 +1,7 @@
 import React from 'react'
-import { getDaysInMonth, isToday, isDateInMonth } from '../../utils/dateUtils'
-import { useCalendarStore } from '../../store/calendarStore'
-import { Event } from '../../types/calendar'
+import { getDaysInMonth, isToday, isDateInMonth } from '@/utils/dateUtils'
+import { useCalendarStore } from '@/store/calendarStore'
+import { Event } from '@/types/calendar'
 import { format, isSameDay } from 'date-fns'
 
 export const MonthView: React.FC = () => {

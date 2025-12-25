@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
-import { Event } from '../../types/calendar'
+import { useCalendarStore } from '@/store/calendarStore'
+import { Event } from '@/types/calendar'
 import { FiX } from 'react-icons/fi'
 
 export const EventEditor: React.FC = () => {
