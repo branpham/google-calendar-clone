@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useCalendarStore } from '@/store/calendarStore'
 import { Event } from '@/types/calendar'
-import { FiX } from 'react-icons/fi'
+import { FiX } from '@/icons/FiX'
 
 export const EventEditor: React.FC = () => {
   const setEventEditorOpen = useCalendarStore((state) => state.setEventEditorOpen)
@@ -36,3 +36,5 @@ export const EventEditor: React.FC = () => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"></div>
+  )
+}
