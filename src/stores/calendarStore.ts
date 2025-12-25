@@ -23,6 +23,8 @@ export const useCalendarStore = create<{
   nextMonth: () => void
   previousMonth: () => void
   goToToday: () => void
+  filterEventsByTag: (tag: string) => Event[]
+  updateNotificationPriority: (eventId: string, notificationId: string, priority: 'low' | 'medium' | 'high') => void
 }>((set, get) => {
   const loadState = () => {
     try {
@@ -142,6 +144,26 @@ export const useCalendarStore = create<{
 
     goToToday: () => {
       set({ currentDate: new Date() })
+      saveState(get())
+    },
+
+    filterEventsByTag: (tag: string) => {
+      return get().events.filter((event) => event.tags.includes(tag))
+    },
+
+    updateNotificationPriority: (eventId: string, notificationId: string, priority: 'low' | 'medium' | 'high') => {
+      set((state) => ({
+        events: state.events.map((event) =>
+          event.id === eventId
+            ? {
+                ...event,
+                notifications: event.notifications.map((notification) =>
+                  notification.id === notificationId ? { ...notification, priority } : notification
+                ),
+              }
+            : event
+        ),
+      }))
       saveState(get())
     },
   }

@@ -57,6 +57,10 @@ export const CalendarList: React.FC = () => {
             <FiPlus size={16} />
             Create calendar
           </button>
+          <div className="mt-4">
+            <span className="font-semibold">Tags</span>
+            <div className="text-gray-400 text-sm">Tag management coming soon</div>
+          </div>
         </div>
       )}
     </div>

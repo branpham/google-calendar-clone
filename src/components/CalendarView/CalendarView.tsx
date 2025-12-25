@@ -4,6 +4,7 @@ import { MonthView } from './MonthView'
 import { WeekView } from './WeekView'
 import { DayView } from './DayView'
 import { YearView } from './YearView'
+import { ScheduleView } from './ScheduleView'
 
 export const CalendarView: React.FC = () => {
   const currentView = useCalendarStore((state) => state.currentView)
@@ -14,6 +15,7 @@ export const CalendarView: React.FC = () => {
       {currentView === 'week' && <WeekView />}
       {currentView === 'day' && <DayView />}
       {currentView === 'year' && <YearView />}
+      {currentView === 'schedule' && <ScheduleView />}
     </div>
   )
 }

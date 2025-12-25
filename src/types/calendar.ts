@@ -6,6 +6,7 @@ export interface Notification {
   id: string
   type: 'email' | 'notification'
   minutesBefore: number
+  priority: 'low' | 'medium' | 'high';
 }
 
 export interface RecurrenceRule {
@@ -34,6 +35,7 @@ export interface Event {
   calendarId: string
   createdAt: Date
   updatedAt: Date
+  tags: string[];
 }
 
 export interface Calendar {
