@@ -48,3 +48,7 @@ import {
     if (minutes === 0) return `${hours} hr`
     return `${hours}h ${minutes}m`
   }
+
+  export const formatDate = (date: Date): string => {
+    return format(date, 'MMM dd, yyyy')
+  }

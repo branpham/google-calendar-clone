@@ -1,12 +1,12 @@
-export type ViewType = 'month' | 'week' | 'day' | 'year' | 'schedule'
+export type ViewType = 'day' | 'week' | 'month' | 'year' | 'schedule'
 export type ColorType = 'tomato' | 'flamingo' | 'tangerine' | 'banana' | 'sage' | 'basil' | 'peacock' | 'blueberry' | 'lavender' | 'grape' | 'graphite'
 export type RecurrenceFrequency = 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly'
 
 export interface Notification {
   id: string
-  type: 'email' | 'notification'
+  type: 'email' | 'popup'
   minutesBefore: number
-  priority: 'low' | 'medium' | 'high';
+  priority: 'low' | 'medium' | 'high'
 }
 
 export interface RecurrenceRule {
@@ -21,29 +21,24 @@ export interface RecurrenceRule {
 export interface Event {
   id: string
   title: string
-  description: string
-  startTime: Date
-  endTime: Date
+  description?: string
+  startDate: Date
+  endDate: Date
   allDay: boolean
-  timeZone: string
-  recurrence: RecurrenceRule | null
-  location: string
-  color: ColorType
-  availability: 'busy' | 'free'
-  visibility: 'default' | 'public' | 'private'
-  notifications: Notification[]
   calendarId: string
-  createdAt: Date
-  updatedAt: Date
-  tags: string[];
+  color?: string
+  location?: string
+  attendees?: string[]
+  tags: string[]
+  notifications: Notification[]
 }
 
 export interface Calendar {
   id: string
   name: string
-  description: string
+  description?: string
   color: string
   visible: boolean
-  owner: string
-  timeZone: string
+  owner?: string
+  timeZone?: string
 }

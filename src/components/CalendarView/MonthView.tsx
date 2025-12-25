@@ -1,66 +1,64 @@
 import React from 'react'
-import { getDaysInMonth, isToday, isDateInMonth } from '@/utils/dateUtils'
 import { useCalendarStore } from '@/store/calendarStore'
-import { Event } from '@/types/calendar'
-import { format, isSameDay } from 'date-fns'
+import { getDaysInMonth, startOfMonth, format } from 'date-fns'
 
 export const MonthView: React.FC = () => {
   const currentDate = useCalendarStore((state) => state.currentDate)
   const events = useCalendarStore((state) => state.events)
-  const calendars = useCalendarStore((state) => state.calendars)
-  const setCurrentDate = useCalendarStore((state) => state.setCurrentDate)
+  const selectEvent = useCalendarStore((state) => state.selectEvent)
+  const setEventEditorOpen = useCalendarStore((state) => state.setEventEditorOpen)
 
-  const days = getDaysInMonth(currentDate)
-  const weekDaysShort = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+  const daysInMonth = getDaysInMonth(currentDate)
+  const firstDay = startOfMonth(currentDate)
+  const startingDayOfWeek = firstDay.getDay()
 
-  const getEventsForDate = (date: Date): Event[] => {
-    return events
-      .filter((event) => {
-        const eventStart = new Date(event.startTime)
-        return isSameDay(eventStart, date) && calendars.find(c => c.id === event.calendarId)?.visible
-      })
-      .slice(0, 3)
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1)
+  const emptyDays = Array.from({ length: startingDayOfWeek }, (_, i) => i)
+
+  const getEventsForDay = (day: number) => {
+    const targetDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+    return events.filter((event) => {
+      const eventStart = new Date(event.startDate)
+      return eventStart.getDate() === day && 
+             eventStart.getMonth() === targetDate.getMonth() &&
+             eventStart.getFullYear() === targetDate.getFullYear()
+    })
   }
 
   return (
-    <div className="flex flex-col h-full bg-cal-bg overflow-auto">
-      <div className="grid grid-cols-7 gap-px bg-cal-border flex-shrink-0">
-        {weekDaysShort.map((day) => (
-          <div key={day} className="bg-cal-bg p-4 text-center font-semibold text-sm">
+    <div className="flex-1 overflow-auto p-4">
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+          <div key={day} className="text-center font-semibold p-2">
             {day}
           </div>
         ))}
       </div>
-
-      <div className="grid grid-cols-7 gap-px flex-1 bg-cal-border p-px">
+      <div className="grid grid-cols-7 gap-1 auto-rows-[120px]">
+        {emptyDays.map((i) => (
+          <div key={`empty-${i}`} className="bg-cal-border rounded" />
+        ))}
         {days.map((day) => {
-          const isCurrentMonth = isDateInMonth(day, currentDate)
-          const isTodayDate = isToday(day)
-          const dayEvents = getEventsForDate(day)
-
+          const dayEvents = getEventsForDay(day)
           return (
-            <div
-              key={format(day, 'yyyy-MM-dd')}
-              onClick={() => setCurrentDate(day)}
-              className={`
-                bg-cal-bg min-h-24 p-2 cursor-pointer transition
-                ${!isCurrentMonth && 'bg-opacity-50'}
-                ${isTodayDate && 'border-2 border-blue-500'}
-                hover:bg-gray-800
-              `}
-            >
-              <div className={`text-sm font-semibold mb-1 ${!isCurrentMonth && 'text-gray-600'}`}>
-                {format(day, 'd')}
-              </div>
+            <div key={day} className="bg-cal-border rounded p-2 overflow-y-auto cursor-pointer hover:bg-gray-600 transition">
+              <div className="font-semibold mb-1">{day}</div>
               <div className="space-y-1">
-                {dayEvents.map((event) => (
+                {dayEvents.slice(0, 2).map((event) => (
                   <div
                     key={event.id}
-                    className="bg-blue-600 text-white text-xs px-2 py-1 rounded truncate"
+                    onClick={() => {
+                      selectEvent(event)
+                      setEventEditorOpen(true)
+                    }}
+                    className="text-xs p-1 rounded bg-blue-600 truncate hover:bg-blue-700"
                   >
                     {event.title}
                   </div>
                 ))}
+                {dayEvents.length > 2 && (
+                  <div className="text-xs text-gray-400">+{dayEvents.length - 2} more</div>
+                )}
               </div>
             </div>
           )

@@ -1,65 +1,40 @@
 import React from 'react'
-import { getDaysInMonth, isToday, isDateInMonth, formatMonthYear } from '../../utils/dateUtils'
 import { useCalendarStore } from '@/store/calendarStore'
-import { format, addMonths, subMonths } from 'date-fns'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { getDaysInMonth, startOfMonth } from 'date-fns'
 
 export const MiniCalendar: React.FC = () => {
-  const [miniDate, setMiniDate] = React.useState(new Date())
   const currentDate = useCalendarStore((state) => state.currentDate)
   const setCurrentDate = useCalendarStore((state) => state.setCurrentDate)
 
-  const days = getDaysInMonth(miniDate)
-  const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+  const daysInMonth = getDaysInMonth(currentDate)
+  const firstDay = startOfMonth(currentDate)
+  const startingDayOfWeek = firstDay.getDay()
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1)
+  const emptyDays = Array.from({ length: startingDayOfWeek }, (_, i) => i)
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{formatMonthYear(miniDate)}</h3>
-        <div className="flex gap-1">
-          <button
-            onClick={() => setMiniDate(subMonths(miniDate, 1))}
-            className="p-1 hover:bg-cal-border rounded"
-          >
-            <FiChevronLeft size={18} />
-          </button>
-          <button
-            onClick={() => setMiniDate(addMonths(miniDate, 1))}
-            className="p-1 hover:bg-cal-border rounded"
-          >
-            <FiChevronRight size={18} />
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-7 gap-1">
-        {weekDays.map((day) => (
-          <div key={day} className="text-center text-xs font-semibold text-gray-400 py-2">
+    <div>
+      <h3 className="font-semibold mb-3">{currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h3>
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
+          <div key={day} className="text-center text-xs font-medium">
             {day}
           </div>
         ))}
-
-        {days.map((day) => {
-          const isCurrentMonth = isDateInMonth(day, miniDate)
-          const isTodayDate = isToday(day)
-          const isSelected = format(day, 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
-
-          return (
-            <button
-              key={format(day, 'yyyy-MM-dd')}
-              onClick={() => setCurrentDate(day)}
-              className={`
-                p-2 text-sm rounded text-center transition
-                ${!isCurrentMonth && 'text-gray-600'}
-                ${isTodayDate && 'bg-blue-600 text-white font-bold'}
-                ${isSelected && !isTodayDate && 'bg-cal-border'}
-                ${!isTodayDate && !isSelected && 'hover:bg-cal-border'}
-              `}
-            >
-              {format(day, 'd')}
-            </button>
-          )
-        })}
+      </div>
+      <div className="grid grid-cols-7 gap-1 auto-rows-[28px]">
+        {emptyDays.map((i) => (
+          <div key={`empty-${i}`} />
+        ))}
+        {days.map((day) => (
+          <button
+            key={day}
+            onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))}
+            className="text-xs rounded hover:bg-cal-border transition"
+          >
+            {day}
+          </button>
+        ))}
       </div>
     </div>
   )
