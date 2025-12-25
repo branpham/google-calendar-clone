@@ -1,6 +1,6 @@
 import React from 'react'
 import { getDaysInMonth, isToday, isDateInMonth, formatMonthYear } from '../../utils/dateUtils'
-import { useCalendarStore } from '../../store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 import { format, addMonths, subMonths } from 'date-fns'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 

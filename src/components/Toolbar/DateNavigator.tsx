@@ -1,6 +1,7 @@
 import React from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { format } from "date-fns";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useCalendarStore } from "@/store/calendarStore";
 
 export const DateNavigator: React.FC = () => {
   const goToToday = useCalendarStore((state) => state.goToToday)

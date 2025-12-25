@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 import { ViewSelector } from './ViewSelector'
 import { DateNavigator } from './DateNavigator'
 import { FiPlus } from 'react-icons/fi'

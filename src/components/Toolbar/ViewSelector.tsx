@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
+import { useCalendarStore } from '@/store/calendarStore'
 import { ViewType } from '../../types/calendar'
 import { FiChevronDown } from 'react-icons/fi'
 

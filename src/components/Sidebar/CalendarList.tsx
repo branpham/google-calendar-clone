@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useCalendarStore } from '../../store/calendarStore'
-import { FiChevronDown, FiChevronUp, FiPlus } from 'react-icons/fi'
+import { useCalendarStore } from '@/store/calendarStore'
+import { FiChevronDown, FiChevronUp, FiPlus, FiCheckSquare, FiSquare } from 'react-icons/fi'
 
 export const CalendarList: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true)
